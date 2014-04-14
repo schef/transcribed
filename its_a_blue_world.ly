@@ -35,6 +35,25 @@ sopMusic = \relative c {
 
   %kitica
   \mark \default
+  fis,2 g |
+  d'2d ~ |
+  d des |
+  c c ~ |
+  c2 a4 b |
+  g'2 g ~ |
+  g2 ges |
+  f1 ~ |
+  f2. f4 |
+  f4. es8 f4. es8 |
+  f4. es8 ges4. f8 |
+  d1 |
+  d2. d4 |
+  des4. c8 des4. c8 |
+  des4 c es des |
+  c1 |
+  
+  %kitica 2
+  r2 fis,4 g |
   
 }
 sopWords = \lyricmode {
@@ -42,24 +61,49 @@ sopWords = \lyricmode {
 }
 
 altoMusic = \relative c {
-  %e4 f d e
+  r2 |
+  r2 as'4 g |
+  f1 |
+  b1 ~ |
+  b1 |
+  b2 g |
+  a1 |
+  
+  %kitica 1
+  
 }
 altoWords = \lyricmode {
-  ha ha ha ha
+  %ha ha ha ha
 }
 
 tenorMusic = \relative c {
-  %g4 a f g
+  r2 |
+  r2 f4 es |
+  des1 |
+  des2 b'4 as |
+  ges1 |
+  c,1 ~ |
+  c1 |
+  
+  %kitica 1
 }
 tenorWords = \lyricmode {
-  hu hu hu hu
+  %hu hu hu hu
 }
 
 bassMusic = \relative c {
-  %c4 c g c
+  r2 |
+  r1 |
+  as1 |
+  ges1 |
+  b1 |
+  f1 ~ |
+  f1 |
+  
+  %kitica 1
 }
 bassWords = \lyricmode {
-  ho ho ho ho
+  %ho ho ho ho
 }
 
 \score {
