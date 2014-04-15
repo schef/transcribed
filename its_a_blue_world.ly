@@ -1,27 +1,116 @@
 \version "2.18.2"
 
+
+date = "15.04.2014"
+
 \header {
-  title = "It's a Blue World"
-  subtitle = "1952"
-  composer = "Four Freshmen"
+  title = \markup { \override #'(font-name . "JohnSans Medium Pro") "IT'S A BLUE WORLD" }
+  subtitle = \markup { \override #'(font-name . "JohnSans Medium Pro") "1952 Single" }
+  composer = \markup { \override #'(font-name . "JohnSans Medium Pro") "Four Freshmen" }
+  tagline = \markup {
+    \override #'(font-name . "JohnSans Medium Pro")
+    \fontsize #-3.5
+    {
+      Engraved on \date using \with-url #"http://lilypond.org/"
+      { LilyPond \simple #(lilypond-version) (http://lilypond.org/) }
+    }
+  }
 }
 
-
-  \paper {
-  top-system-spacing #'basic-distance = #10
-  score-system-spacing #'basic-distance = #20
-  system-system-spacing #'basic-distance = #20
-  last-bottom-spacing #'basic-distance = #10
+#(set-global-staff-size 26)
+\paper {
+  markup-system-spacing #'padding = #3
 }
 
 \include "deutsch.ly"
+
+%% http://lsr.dsi.unimi.it/LSR/Item?id=336
+%% see also http://code.google.com/p/lilypond/issues/detail?id=1228
+
+%% Usage:
+%%   \new Staff \with {
+%%     \override RestCollision.positioning-done = #merge-rests-on-positioning
+%%   } << \somevoice \\ \othervoice >>
+%% or (globally):
+%%   \layout {
+%%     \context {
+%%       \Staff
+%%       \override RestCollision.positioning-done = #merge-rests-on-positioning
+%%     }
+%%   } 
+%%
+%% Limitations:
+%% - only handles two voices
+%% - does not handle multi-measure/whole-measure rests
+
+#(define (rest-score r)
+   (let ((score 0)
+         (yoff (ly:grob-property-data r 'Y-offset))
+         (sp (ly:grob-property-data r 'staff-position)))
+     (if (number? yoff)
+         (set! score (+ score 2))
+         (if (eq? yoff 'calculation-in-progress)
+             (set! score (- score 3))))
+     (and (number? sp)
+          (<= 0 2 sp)
+          (set! score (+ score 2))
+          (set! score (- score (abs (- 1 sp)))))
+     score))
+
+#(define (merge-rests-on-positioning grob)
+   (let* ((can-merge #f)
+          (elts (ly:grob-object grob 'elements))
+          (num-elts (and (ly:grob-array? elts)
+                         (ly:grob-array-length elts)))
+          (two-voice? (= num-elts 2)))
+     (if two-voice?
+         (let* ((v1-grob (ly:grob-array-ref elts 0))
+                (v2-grob (ly:grob-array-ref elts 1))
+                (v1-rest (ly:grob-object v1-grob 'rest))
+                (v2-rest (ly:grob-object v2-grob 'rest)))
+           (and
+            (ly:grob? v1-rest)
+            (ly:grob? v2-rest)	     	   
+            (let* ((v1-duration-log (ly:grob-property v1-rest 'duration-log))
+                   (v2-duration-log (ly:grob-property v2-rest 'duration-log))
+                   (v1-dot (ly:grob-object v1-rest 'dot))
+                   (v2-dot (ly:grob-object v2-rest 'dot))
+                   (v1-dot-count (and (ly:grob? v1-dot)
+                                      (ly:grob-property v1-dot 'dot-count -1)))
+                   (v2-dot-count (and (ly:grob? v2-dot)
+                                      (ly:grob-property v2-dot 'dot-count -1))))
+              (set! can-merge
+                    (and 
+                     (number? v1-duration-log)
+                     (number? v2-duration-log)
+                     (= v1-duration-log v2-duration-log)
+                     (eq? v1-dot-count v2-dot-count)))
+              (if can-merge
+                  ;; keep the rest that looks best:
+                  (let* ((keep-v1? (>= (rest-score v1-rest)
+                                       (rest-score v2-rest)))
+                         (rest-to-keep (if keep-v1? v1-rest v2-rest))
+                         (dot-to-kill (if keep-v1? v2-dot v1-dot)))
+                    ;; uncomment if you're curious of which rest was chosen:
+                    ;;(ly:grob-set-property! v1-rest 'color green)
+                    ;;(ly:grob-set-property! v2-rest 'color blue)
+                    (ly:grob-suicide! (if keep-v1? v2-rest v1-rest))
+                    (if (ly:grob? dot-to-kill)
+                        (ly:grob-suicide! dot-to-kill))
+                    (ly:grob-set-property! rest-to-keep 'direction 0)
+                    (ly:rest::y-offset-callback rest-to-keep)))))))
+     (if can-merge
+         #t
+         (ly:rest-collision::calc-positioning-done grob))))
+
 
 global = {
   \key c \major
   \time 4/4
 }
 
-sopMusic = \relative c {
+soprano = \relative c {
+  \set Score.markFormatter = #format-mark-box-letters
   %uvod
   \mark \default
   \partial 2
@@ -39,28 +128,34 @@ sopMusic = \relative c {
   d'2d ~ |
   d des |
   c c ~ |
+  %cudan takt
   c2 a4 b |
   g'2 g ~ |
   g2 ges |
   f1 ~ |
-  f2. f4 |
+  f2. 
+  \mark \default
+  f4 |
   f4. es8 f4. es8 |
   f4. es8 ges4. f8 |
   d1 |
-  d2. d4 |
+  d2. 
+  \mark \default
+  d4 |
   des4. c8 des4. c8 |
   des4 c es des |
   c1 |
+  r2
   
-  %kitica 2
-  r2 fis,4 g |
+  %kitica   
+  fis,4 g |
   
 }
 sopWords = \lyricmode {
   hi hi hi hi
 }
 
-altoMusic = \relative c {
+alto = \relative c {
   r2 |
   r2 as'4 g |
   f1 |
@@ -74,20 +169,26 @@ altoMusic = \relative c {
   b2 b( |
   a2) a |
   a2 a( |
-  b) a4 b |
-  es2 e( |
+  g) 
+  \mark \default
+  a4 b |
+  es2 es( |
   d2) d |
   d1 ~ |
   d2. d4 |
   d4. c8 d4. c8 |
-  des4. c8 d4. d8 |
-  a1 |
-  a2 c |
-  b2. d4 |
-  b4. b8 b4. b8 |
+  %provjeri des ili d
+  des4. c8 des4. c8 |
+  a2 ( c ) |
+  b2. b4 |
+  b4. b8 b4. a8 |
   b4 a h a |
   a1 |
-  r2 fis4 g |
+  r2 
+  
+  %kitica 2
+  \mark \default
+  fis4 g |
   
   
 }
@@ -95,7 +196,7 @@ altoWords = \lyricmode {
   %ha ha ha ha
 }
 
-tenorMusic = \relative c {
+tenor = \relative c {
   r2 |
   r2 f4 es |
   des1 |
@@ -105,62 +206,197 @@ tenorMusic = \relative c {
   c1 |
   
   %kitica 1
+  fis2 g |
+  g2 g ( |
+  ges2 ) ges |
+  f2 f ( |
+  d2 ) a'4 b |
+  
+  c2 c ( |
+  h ) h |
+  b1 ~ |
+  b2. b4 |
+  b4. b8 b4. b8 |
+  b4. b8 a4. a8 |
+  f2 ( a ) |
+  g2. g4 |
+  as4. as8 ges4. f8 |
+  ges4 ges ges e |
+  es1 |
+  r2 
+  
+  %kitica 2
+  fis4 g |
+  
+  
 }
 tenorWords = \lyricmode {
   %hu hu hu hu
 }
 
-bassMusic = \relative c {
+verse = \lyricmode {
+  
+  \override LyricText #'font-name = #"JohnSans Text Pro"
+  \override LyricText #'font-size = #-2
+  % Lyarics follow here.
+  U __ _ _
+  U __ _
+  A __
+  A __
+  
+  It's a blue world __
+  With -- out you __
+  It's a blue world __
+  a -- lone __
+
+  My days and nights
+  That once were filled
+  With hea -- ven
+
+  With you a -- way
+  How em -- pty they have grown
+
+  It's a blue world
+  From now on
+  It's a through world
+  For me
+
+  The sea, the sky
+  My heart and I
+  Are all an indigo hue
+  Without you
+  It's a blue, blue
+  World 
+}
+
+altoverse = \lyricmode {
+  
+  \override LyricText #'font-name = #"JohnSans Text Pro"
+  \override LyricText #'font-size = #-2
+  % Lyarics follow here.
+  
+  A __ _ U __ A
+  __ A __ _ _
+  
+}
+
+bass = \relative c {
   r2 |
   r1 |
   as1 |
   ges1 |
-  b1 |
+  h1 |
   f1 ~ |
   f1 |
   
   %kitica 1
+  fis'2 g
+  es2 es2 ~ |
+  es es |
+  d2 d (
+  b2 ) a'4 b |
+  
+  as2 b ( |
+  as ) as |
+  g1 ~ |
+  g2. g4 |
+  g4. g8 g4. g8 |
+  ges4. ges8 es4. es8 |
+  b1 |
+  f'2. f4 |
+  f4. f8 es4. es8 |
+  es4 es h a |
+  f1 |
+  r2
+  
+  %kitica 2
+  fis'4 g
+  
+  
+  
+  
 }
 bassWords = \lyricmode {
   %ho ho ho ho
 }
 
+%\score {
+%  \new ChoirStaff <<
+%    \new Lyrics = "sopranos" \with {
+%      % this is needed for lyrics above a staff
+%      \override VerticalAxisGroup #'staff-affinity = #DOWN
+%    }
+%    \new Staff = "women" <<
+%      \clef bass
+%      \new Voice = "sopranos" {
+%        \voiceOne
+%        << \global \sopMusic >>
+%      }
+%      \new Voice = "altos" {
+%        \voiceTwo
+%        << \global \altoMusic >>
+%      }
+%    >>
+%    \new Lyrics = "altos"
+%    \new Lyrics = "tenors" \with {
+%      % this is needed for lyrics above a staff
+%      \override VerticalAxisGroup #'staff-affinity = #DOWN
+%    }
+%    \new Staff = "men" <<
+%      \clef bass
+%      \new Voice = "tenors" {
+%        \voiceOne
+%        << \global \tenorMusic >>
+%      }
+%      \new Voice = "basses" {
+%        \voiceTwo << \global \bassMusic >>
+%      }
+%    >>
+%    \new Lyrics = "basses"
+%    %\context Lyrics = "sopranos" \lyricsto "sopranos" \sopWords
+%    \context Lyrics = "altos" \lyricsto "altos" \altoWords
+%    %\context Lyrics = "tenors" \lyricsto "tenors" \tenorWords
+%    %\context Lyrics = "basses" \lyricsto "basses" \bassWords
+%  >>
+%  \layout {}
+%  \midi { \tempo 4 = 72 }
+%}
+
 \score {
   \new ChoirStaff <<
-    \new Lyrics = "sopranos" \with {
-      % this is needed for lyrics above a staff
-      \override VerticalAxisGroup #'staff-affinity = #DOWN
-    }
-    \new Staff = "women" <<
-      \clef bass
-      \new Voice = "sopranos" {
-        \voiceOne
-        << \global \sopMusic >>
-      }
-      \new Voice = "altos" {
-        \voiceTwo
-        << \global \altoMusic >>
-      }
+    \new Staff \with {
+      %midiInstrument = "choir aahs"
+      instrumentName = \markup \center-column { \override #'(font-name . "JohnSans Medium Pro") \tiny "Soprano" \override #'(font-name . "JohnSans Medium Pro") \tiny "Alto" }
+      \override RestCollision.positioning-done = #merge-rests-on-positioning
+    } <<
+      \new Voice = "soprano" { \clef bass \voiceOne \soprano }
+      \new Voice = "alto" { \voiceTwo \alto }
     >>
-    \new Lyrics = "altos"
-    \new Lyrics = "tenors" \with {
-      % this is needed for lyrics above a staff
-      \override VerticalAxisGroup #'staff-affinity = #DOWN
-    }
-    \new Staff = "men" <<
+    
+    \new Lyrics \with {
+      \override VerticalAxisGroup #'staff-affinity = #CENTER
+    } \lyricsto "soprano" { \verse }
+    
+    \new Lyrics \with {
+      \override VerticalAxisGroup #'staff-affinity = #CENTER
+    } \lyricsto "alto" { \altoverse }
+    
+    \new Staff \with {
+      %midiInstrument = "choir aahs"
+      instrumentName = \markup \center-column { \override #'(font-name . "JohnSans Medium Pro") \tiny "Tenor" \override #'(font-name . "JohnSans Medium Pro") \tiny "Bass" }
+      \override RestCollision.positioning-done = #merge-rests-on-positioning
+    } <<
       \clef bass
-      \new Voice = "tenors" {
-        \voiceOne
-        << \global \tenorMusic >>
-      }
-      \new Voice = "basses" {
-        \voiceTwo << \global \bassMusic >>
-      }
+      \new Voice = "tenor" { \voiceOne \tenor }
+      \new Voice = "bass" { \voiceTwo \bass }
     >>
-    \new Lyrics = "basses"
-    %\context Lyrics = "sopranos" \lyricsto "sopranos" \sopWords
-    \context Lyrics = "altos" \lyricsto "altos" \altoWords
-    %\context Lyrics = "tenors" \lyricsto "tenors" \tenorWords
-    %\context Lyrics = "basses" \lyricsto "basses" \bassWords
   >>
+  \layout { }
+  \midi {
+    \context {
+      \Score
+      tempoWholesPerMinute = #(ly:make-moment 72 4)
+    }
+  }
 }
+
