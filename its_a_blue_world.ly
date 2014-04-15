@@ -70,6 +70,25 @@ altoMusic = \relative c {
   a1 |
   
   %kitica 1
+  fis2 g |
+  b2 b( |
+  a2) a |
+  a2 a( |
+  b) a4 b |
+  es2 e( |
+  d2) d |
+  d1 ~ |
+  d2. d4 |
+  d4. c8 d4. c8 |
+  des4. c8 d4. d8 |
+  a1 |
+  a2 c |
+  b2. d4 |
+  b4. b8 b4. b8 |
+  b4 a h a |
+  a1 |
+  r2 fis4 g |
+  
   
 }
 altoWords = \lyricmode {
