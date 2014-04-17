@@ -147,9 +147,24 @@ soprano = \relative c {
   c1 |
   r2
   
-  %kitica   
+  %kitica 2
   fis,4 g |
-  
+  d'4( b) d2 ~ |
+  d2 des |
+  c1 ~ |
+  c2 a4 b |
+  g'2 g ~ |
+  g2 ges |
+  f1 ~ |
+  f2. r8 f8 |
+  f4. es8 f4. es8 |
+  f4 es ges4. f8 |
+  d4. d8 \times 2/3 {f4 f f} |
+  d2 fis,4 g |
+  d'2 fis,4 g |
+  d'2 d |
+  b1 ~ |
+  b2 r2 |
 }
 sopWords = \lyricmode {
   hi hi hi hi
@@ -189,8 +204,22 @@ alto = \relative c {
   %kitica 2
   \mark \default
   fis4 g |
-  
-  
+  b4( g) b2( |
+  a2) c |
+  a4( b c2\( |
+  h2\)) a4 b |
+  es2 es( |
+  d2) d |
+  d1 ~ |
+  d2. r8 d8 |
+  d4. c8 d4. c8 |
+  des4 c des4. c8 |
+  a4. a8 \times 2/3 {d4 d d} |
+  h2 fis4 g |
+  b2 fis4 g |
+  b4( g) a2 |
+  g1 ~ |
+  g2 r2 |
 }
 altoWords = \lyricmode {
   %ha ha ha ha
@@ -227,8 +256,22 @@ tenor = \relative c {
   
   %kitica 2
   fis4 g |
-  
-  
+  g4( es) g2( |
+  ges2) ges |
+  f4( ges f2 ~ |
+  f2) a4 b |
+  c2 c( |
+  h2) h |
+  b1 ~ |
+  b2. r8 b8 |
+  b4. b8 b4. b8 |
+  b4 b b4. a8 |
+  g4. g8 \times 2/3 {b4 b b} |
+  as2 fis4 g |
+  g2 fis4 g |
+  g4 es ges2 |
+  f1 ~ |
+  f2 r2 |
 }
 tenorWords = \lyricmode {
   %hu hu hu hu
@@ -310,11 +353,23 @@ bass = \relative c {
   r2
   
   %kitica 2
-  fis'4 g
-  
-  
-  
-  
+  fis'4 g |
+  e4( c) e2( |
+  es2) es |
+  d4( es d2\( |
+  b2)\) a'4 b |
+  a2 b2( |
+  as2) as |
+  g1 ~ |
+  g2. r8 g8 |
+  g4. g8 g4. g8 |
+  ges4 ges es4. es8 %pitanje daj je osminka es?
+  f4. f8 \times 2/3 {a4 a a} |
+  f2 fis4 g |
+  e2 fis4 g |
+  es4 c es2 |
+  d1 ~ |
+  d2 r2 |
 }
 bassWords = \lyricmode {
   %ho ho ho ho
@@ -370,6 +425,7 @@ bassWords = \lyricmode {
       \override RestCollision.positioning-done = #merge-rests-on-positioning
     } <<
       \new Voice = "soprano" { \clef bass \voiceOne \soprano }
+      %\new Voice = "soprano" { \voiceOne \soprano }
       \new Voice = "alto" { \voiceTwo \alto }
     >>
     
