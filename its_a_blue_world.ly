@@ -113,6 +113,7 @@ soprano = \relative c {
   \set Score.markFormatter = #format-mark-box-letters
   %uvod
   \mark \default
+  \set Score.skipTypesetting = ##t
   \partial 2
   e4 f |
   c'1 ~ |
@@ -152,7 +153,7 @@ soprano = \relative c {
   d'4( b) d2 ~ |
   d2 des |
   c1 ~ |
-  c2 a4 b |
+  c2  a4 b |
   g'2 g ~ |
   g2 ges |
   f1 ~ |
@@ -164,7 +165,27 @@ soprano = \relative c {
   d'2 fis,4 g |
   d'2 d |
   b1 ~ |
-  b2 r2 |
+  b2
+  
+  %kitica 3
+  fis,4 g |
+  d'2 d ~ |
+  d2 des |
+  c1 ~ |
+  c2 a'4 b |
+  \clef treble
+  g'8. ( es16 ~ es8 f ) g2 ~ |
+  g2 b |
+  f1 ~ |
+  f2. r8 f8 |
+  f4. es8 f4. es8 |
+  b'4 ges f4. es8 |
+  d4. d8 \times 2/3 { f4 f f } |
+  d2 \clef bass fis,4 g |
+  d'2 fis,4 g |
+  d'2\fermata d4 ( cis |
+  fis2\fermata ) f2 ~ |
+  f1\fermata \bar "|."
 }
 sopWords = \lyricmode {
   hi hi hi hi
@@ -202,24 +223,41 @@ alto = \relative c {
   r2 
   
   %kitica 2
+  
   \mark \default
   fis4 g |
   b4( g) b2( |
-  a2) c |
-  a4( b c2\( |
-  h2\)) a4 b |
+  a2) a |
+  a4( b a2 |
+  g2) a4 b |
   es2 es( |
   d2) d |
   d1 ~ |
   d2. r8 d8 |
+
   d4. c8 d4. c8 |
   des4 c des4. c8 |
-  a4. a8 \times 2/3 {d4 d d} |
+  g 4. g8 \times 2/3 {d'4 d d} |
   h2 fis4 g |
   b2 fis4 g |
   b4( g) a2 |
   g1 ~ |
-  g2 r2 |
+  g2
+  
+  %kitica3
+  \set Score.skipTypesetting = ##f
+  fis,4 g |
+  d'2 d2 ~ |
+  d2 des |
+  c1 ~ |
+  c2 a'4 b |
+  es8. ( as,16 ~ as8 d ) es8. ( c16 ~ c8 es |
+  d2 ) ges |
+  d1 |
+  d2. r8 d8 |
+
+
+  
 }
 altoWords = \lyricmode {
   %ha ha ha ha
@@ -266,10 +304,10 @@ tenor = \relative c {
   b2. r8 b8 |
   b4. b8 b4. b8 |
   b4 b b4. a8 |
-  g4. g8 \times 2/3 {b4 b b} |
+  f4. f8 \times 2/3 {b 4 b b} |
   as2 fis4 g |
   g2 fis4 g |
-  g4 es ges2 |
+  g4( es) ges2 |
   f1 ~ |
   f2 r2 |
 }
@@ -356,18 +394,18 @@ bass = \relative c {
   fis'4 g |
   e4( c) e2( |
   es2) es |
-  d4( es d2\( |
-  b2)\) a'4 b |
-  a2 b2( |
+  d4( es d2 |
+  b2) a'4 b |
+  as2 b2( |
   as2) as |
   g1 ~ |
   g2. r8 g8 |
   g4. g8 g4. g8 |
   ges4 ges es4. es8 %pitanje daj je osminka es?
-  f4. f8 \times 2/3 {a4 a a} |
+  b4. b8 \times 2/3 {a'4 a a} |
   f2 fis4 g |
   e2 fis4 g |
-  es4 c es2 |
+  es4( c) es2 |
   d1 ~ |
   d2 r2 |
 }
