@@ -152,16 +152,22 @@ soprano = \relative c {
   fis,4 g |
   d'4( b) d2 ~ |
   d2 des |
-  c1 |
-  c2  a4 b |
+  c2 c2 ~ |
+  c2
+  \mark \default
+  a4 b |
   g'2 g ~ |
   g2 ges |
   f1 ~ |
-  f2. r8 f8 |
+  f2. r8 
+  \mark \default
+  f8 |
   f4. es8 f4. es8 |
   f4 es ges4. f8 |
   d4. d8 \times 2/3 {f4 f f} |
-  d2 fis,4 g |
+  d2 
+  \mark \default
+  fis,4 g |
   d'2 fis,4 g |
   d'2 d |
   b1 ~ |
@@ -172,16 +178,22 @@ soprano = \relative c {
   d'2 d ~ |
   d2 des |
   c2 c2 ~ |
-  c2 a'4 b |
+  c2 
+  \mark \default
+  a'4 b |
   \clef treble
   g'8. ( es16 ~ es8 f ) g2 ~ |
   g2 b |
   f1 ~ |
-  f2. r8 f8 |
+  f2. r8 
+  \mark \default
+  f8 |
   f4. es8 f4. es8 |
   b'4 ges f4. es8 |
   d4. d8 \times 2/3 { f4 f f } |
-  d2 \clef bass fis,4 g |
+  d2 \clef bass 
+  \mark \default
+  fis,4 g |
   d'2 fis,4 g |
   d'2\fermata d4 ( cis |
   fis2\fermata ) f2 ~ |
@@ -228,8 +240,8 @@ alto = \relative c {
   fis4 g |
   b4( g) b2( |
   a2) a |
-  a4( b a2 )|
-  g2 a4 b |
+  a4( b) a2(|
+  g2 )a4 b |
   es2 es( |
   d2) d |
   d1 ~ |
@@ -245,7 +257,7 @@ alto = \relative c {
   g2
   
   %kitica3
-
+  \mark \default
   fis,4 g |
   d'2 d2 ~ |
   d2 des |
@@ -306,8 +318,8 @@ tenor = \relative c {
   fis4 g |
   g4( es) g2( |
   ges2) ges |
-  f4( ges f2 ) |
-  f2 a4 b |
+  f4( ges) f2 ( |
+  f2) a4 b |
   c2 c( |
   h2) h |
   b1 ~ |
@@ -327,8 +339,8 @@ tenor = \relative c {
   d2 des |
   c2 c2 ~ |
   c2 a'4 b |
-  c8. as16 ~ as8 b c8. as16 ~ as8 c |
-  h2 d |
+  c8.( as16 ~ as8 b) c8.( as16 ~ as8 c |
+  h2 ) d |
   b1 ~ |
   b2. r8 b |
   b4. b8 b4. b8 |
@@ -368,28 +380,28 @@ verse = \lyricmode {
   How em -- pty they have grown
 
   It's a blue world
-  From now on
+  From now __ on __
   It's a through world
-  For me
+  For me __
 
   The sea, the sky
   My heart and I
-  Are all an in -- di -- go hue
+  Were all an in -- di -- go hue
   With -- out you
   It's a blue, blue
-  World 
+  World  __
 
-  It's a blue world
-  From now on
-  It's a through world
-  For me
+  It's a blue world __
+  From now on __
+  It's a through __ world __
+  For me __
 
   The sea, the sky
   My heart and I
-  Are all an in -- di -- go hue
+ Were all an in -- di -- go hue
   With -- out you
-  It's a blue, blue
-  World 
+  It's a blue, blue __
+  World __
 }
 
 altoverse = \lyricmode {
@@ -436,8 +448,8 @@ bass = \relative c {
   fis'4 g |
   e4( c) e2( |
   es2) es |
-  d4( es d2 ) |
-  b2 a'4 b |
+  d4( es ) d2( |
+  b2) a'4 b |
   as2 b2( |
   as2) as |
   g1 ~ |
@@ -457,8 +469,8 @@ bass = \relative c {
   d2 des |
   c2 c2 ~ |
   c2 a'4 b |
-  as8. f16 ~ f8 g as8. f16 ~ f8 g |
-  as2 as |
+  as8.( f16 ~ f8 g) as8.( f16 ~ f8 g |
+  as2 ) as |
   g1 ~ |
   g2. r8 g |
   g4. g8 g4. g8 |
