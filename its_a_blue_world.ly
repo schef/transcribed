@@ -113,7 +113,7 @@ soprano = \relative c {
   \set Score.markFormatter = #format-mark-box-letters
   %uvod
   \mark \default
-  \set Score.skipTypesetting = ##t
+  %\set Score.skipTypesetting = ##t
   \partial 2
   e4 f |
   c'1 ~ |
@@ -152,7 +152,7 @@ soprano = \relative c {
   fis,4 g |
   d'4( b) d2 ~ |
   d2 des |
-  c1 ~ |
+  c1 |
   c2  a4 b |
   g'2 g ~ |
   g2 ges |
@@ -171,7 +171,7 @@ soprano = \relative c {
   fis,4 g |
   d'2 d ~ |
   d2 des |
-  c1 ~ |
+  c2 c2 ~ |
   c2 a'4 b |
   \clef treble
   g'8. ( es16 ~ es8 f ) g2 ~ |
@@ -228,8 +228,8 @@ alto = \relative c {
   fis4 g |
   b4( g) b2( |
   a2) a |
-  a4( b a2 |
-  g2) a4 b |
+  a4( b a2 )|
+  g2 a4 b |
   es2 es( |
   d2) d |
   d1 ~ |
@@ -245,16 +245,26 @@ alto = \relative c {
   g2
   
   %kitica3
-  \set Score.skipTypesetting = ##f
+
   fis,4 g |
   d'2 d2 ~ |
   d2 des |
-  c1 ~ |
+  c2 c2 ~ |
   c2 a'4 b |
+  
   es8. ( as,16 ~ as8 d ) es8. ( c16 ~ c8 es |
   d2 ) ges |
-  d1 |
+  d1 ~ |
   d2. r8 d8 |
+  d4. c8 d4. c8 |
+  %\set Score.skipTypesetting = ##f 
+  f4 es c4. c8 |
+  b4. b8 \times 2/3 { d4 d d } |
+  h2 fis4 g |
+  b2 fis4 g |
+  b2 b4 a |
+  cis2 c2 ~ |
+  c1 |
 
 
   
@@ -296,8 +306,8 @@ tenor = \relative c {
   fis4 g |
   g4( es) g2( |
   ges2) ges |
-  f4( ges f2 ~ |
-  f2) a4 b |
+  f4( ges f2 ) |
+  f2 a4 b |
   c2 c( |
   h2) h |
   b1 ~ |
@@ -309,7 +319,27 @@ tenor = \relative c {
   g2 fis4 g |
   g4( es) ges2 |
   f1 ~ |
-  f2 r2 |
+  f2
+  
+  %kitica 3
+    fis,4 g |
+  d'2 d ~ |
+  d2 des |
+  c2 c2 ~ |
+  c2 a'4 b |
+  c8. as16 ~ as8 b c8. as16 ~ as8 c |
+  h2 d |
+  b1 ~ |
+  b2. r8 b |
+  b4. b8 b4. b8 |
+  des4 c b4. b8 |
+  g4. g8 \times 2/3 { b4 b b } |
+  as2 fis4 g |
+  g2 fis4 g |
+  g2 g4 fis |
+  a2   g ~ |
+  g1 |
+  
 }
 tenorWords = \lyricmode {
   %hu hu hu hu
@@ -344,8 +374,20 @@ verse = \lyricmode {
 
   The sea, the sky
   My heart and I
-  Are all an indigo hue
-  Without you
+  Are all an in -- di -- go hue
+  With -- out you
+  It's a blue, blue
+  World 
+
+  It's a blue world
+  From now on
+  It's a through world
+  For me
+
+  The sea, the sky
+  My heart and I
+  Are all an in -- di -- go hue
+  With -- out you
   It's a blue, blue
   World 
 }
@@ -394,8 +436,8 @@ bass = \relative c {
   fis'4 g |
   e4( c) e2( |
   es2) es |
-  d4( es d2 |
-  b2) a'4 b |
+  d4( es d2 ) |
+  b2 a'4 b |
   as2 b2( |
   as2) as |
   g1 ~ |
@@ -407,7 +449,26 @@ bass = \relative c {
   e2 fis4 g |
   es4( c) es2 |
   d1 ~ |
-  d2 r2 |
+  d2
+  
+  %kitica 3
+    fis,4 g |
+  d'2 d ~ |
+  d2 des |
+  c2 c2 ~ |
+  c2 a'4 b |
+  as8. f16 ~ f8 g as8. f16 ~ f8 g |
+  as2 as |
+  g1 ~ |
+  g2. r8 g |
+  g4. g8 g4. g8 |
+  ges4 a ges4. ges8 |
+  f4. f8 \times 2/3 { a4 a a } |
+  f2 fis4 g |
+  e2 fis4 g |
+  es2 c4 h ~ |
+  h2 d ~ | 
+  d1 |
 }
 bassWords = \lyricmode {
   %ho ho ho ho
