@@ -2,10 +2,16 @@
 \language "deutsch"
 date = "30.4.2014."
 
-#(set-global-staff-size 24)
+\include "/AccordsJazzDefs.ly"
+
+myStaffSize = #24
+#(set-global-staff-size myStaffSize)
+#(set-default-paper-size "a4")
 \paper {
-  markup-system-spacing #'padding = #3
+  #(define fonts	(make-pango-font-tree "Dom Casual" "DejaVu Sans Condensed" "lilyjazzchord" (/ myStaffSize 20)))
   indent = 0
+  system-system-spacing #'basic-distance = #7
+  markup-system-spacing #'padding = #3
 }
 
 \header {
