@@ -486,6 +486,40 @@ bassWords = \lyricmode {
   %ho ho ho ho
 }
 
+akordi = \chordmode {
+  \semiGermanChords
+  s2 |
+  s1*7
+  
+  c1:m7 |
+  f2:7 h:7 |
+  b1:maj7 b:6
+  f1:m7 b2:7 e:7
+  es1*3:maj7
+  as2:7 f:7
+  b1:maj7 b:6
+  ges2*3:maj7 r2*5
+  
+  c1:7 |
+  f2:7 h:7 |
+  b1:maj7 b:6
+  f1:m7 b2:7 e:7
+  es1*3:maj7
+  as2:7 f:7
+  b1:maj7 h1:dim
+  c:7 c2:m7 h:7 |
+  b2*3:6 r2*9
+  r4
+  
+  f2.:m7 b2:7 e:7
+  es1*3:maj7
+  as2:7 f:7
+  b1:maj7 h1:dim
+  c2:7 r2 c2:m7 h2:7 r2
+  b2*3:6
+  
+}
+
 %\score {
 %  \new ChoirStaff <<
 %    \new Lyrics = "sopranos" \with {
@@ -529,6 +563,8 @@ bassWords = \lyricmode {
 %}
 
 \score {
+  <<
+  \new ChordNames { \akordi }
   \new ChoirStaff <<
     \new Staff \with {
       %midiInstrument = "choir aahs"
@@ -557,6 +593,7 @@ bassWords = \lyricmode {
       \new Voice = "tenor" { \voiceOne \tenor }
       \new Voice = "bass" { \voiceTwo \bass }
     >>
+  >>
   >>
   \layout { }
   \midi {
